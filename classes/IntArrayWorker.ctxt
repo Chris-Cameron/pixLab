@@ -23,4 +23,6 @@ comment7.target=int\ getCount(int)
 comment7.text=\ \r\n\ Method\ to\ return\ the\ amount\ of\ a\ certain\ value\ in\ a\ matrix\r\n\ @param\ num\ the\ number\ being\ searched\ for\ in\ the\ matrix\r\n\ @return\ the\ amount\ of\ the\ number\ specified\ in\ num\r\n
 comment8.params=
 comment8.target=int\ getLargest()
-numComments=9
+comment9.params=column
+comment9.target=int\ getColTotal(int)
+numComments=10
