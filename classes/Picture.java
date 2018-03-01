@@ -28,6 +28,7 @@ public class Picture extends SimplePicture
     super();  
   }
   
+  
   /**
    * Constructor that takes a file name and creates the picture 
    * @param fileName the name of the file to create the picture from
@@ -37,6 +38,7 @@ public class Picture extends SimplePicture
     // let the parent class handle this fileName
     super(fileName);
   }
+  
   
   /**
    * Constructor that takes the width and height
@@ -49,6 +51,7 @@ public class Picture extends SimplePicture
     super(width,height);
   }
   
+  
   /**
    * Constructor that takes a picture and creates a 
    * copy of that picture
@@ -59,6 +62,7 @@ public class Picture extends SimplePicture
     // let the parent class do the copy
     super(copyPicture);
   }
+  
   
   /**
    * Constructor that takes a buffered image
@@ -85,6 +89,7 @@ public class Picture extends SimplePicture
     
   }
   
+  
   /** Method to set the blue to 0 */
   public void zeroBlue()
   {
@@ -97,6 +102,7 @@ public class Picture extends SimplePicture
       }
     }
   }
+  
   
   /** Method to set the red and green to 0 */
   public void keepOnlyBlue()
@@ -112,6 +118,7 @@ public class Picture extends SimplePicture
     } 
   }
   
+  
   /** Method to negate the color values */
   public void negate()
   {
@@ -126,6 +133,7 @@ public class Picture extends SimplePicture
       }
     }      
   }
+  
   
   /** Method to average the three color values as to form a grayscale picture */
   public void grayscale()
@@ -143,6 +151,7 @@ public class Picture extends SimplePicture
     }      
   }  
   
+  
   /** Method to make fish more visible in an ocean picture */
   public void fixUnderwater()
   {
@@ -159,6 +168,7 @@ public class Picture extends SimplePicture
       }
     }      
   }  
+  
   
   /** Method that mirrors the picture around a 
     * vertical mirror in the center of the picture
@@ -180,6 +190,7 @@ public class Picture extends SimplePicture
     } 
   }
   
+  
   /** Method that mirrors the picture around a 
     * vertical mirror in the center of the picture
     * from right to left */
@@ -200,6 +211,72 @@ public class Picture extends SimplePicture
     } 
   }  
   
+  
+    /** Method that mirrors the picture around a 
+    * horizontal mirror in the center of the picture
+    * from top to bottom */
+  public void mirrorHorizontal()
+  {
+    Pixel[][] pixels = this.getPixels2D();
+    Pixel topPixel = null;
+    Pixel bottomPixel = null;
+    int height = pixels.length;
+    for (int row = 0; row < height / 2; row++)
+    {
+      for (int col = 0; col < pixels[0].length; col++)
+      {
+        topPixel = pixels[row][col];
+        bottomPixel = pixels[height-1-row][col];
+        bottomPixel.setColor(topPixel.getColor());
+      }
+    } 
+  }
+  
+  
+  /** Method that mirrors the picture around a 
+  * horizontal mirror in the center of the picture
+  * from bottom to top */
+  public void mirrorHorizontalBotToTop()
+  {
+    Pixel[][] pixels = this.getPixels2D();
+    Pixel topPixel = null;
+    Pixel bottomPixel = null;
+    int height = pixels.length;
+    for (int row = 0; row < height / 2; row++)
+    {
+      for (int col = 0; col < pixels[0].length; col++)
+      {
+        topPixel = pixels[row][col];
+        bottomPixel = pixels[height-1-row][col];
+        topPixel.setColor(bottomPixel.getColor());
+      }
+    } 
+  }
+  
+  
+  /** Method that mirrors a 45-45-90 right traingle
+   * at the bottom left of the picture*/
+  public void mirrorDiagonal()
+  {
+    Pixel[][] pixels = this.getPixels2D();
+    Pixel firstPixel = null;
+    Pixel secondPixel = null;
+    for (int row = 0; row < pixels.length; row++)
+    {
+      for (int col = 0;col < pixels[0].length && col < row; col++)
+      {
+        firstPixel = pixels[row][col];
+        
+        if(row < pixels[0].length)
+        {
+          secondPixel = pixels [col][row];
+          secondPixel.setColor(firstPixel.getColor());
+        }
+      }
+    }  
+  }
+  
+
   /** Mirror just part of a picture of a temple */
   public void mirrorTemple()
   {
@@ -223,6 +300,7 @@ public class Picture extends SimplePicture
       }
     }
   }
+  
   
   /** copy from the passed fromPic to the
     * specified startRow and startCol in the
@@ -255,6 +333,7 @@ public class Picture extends SimplePicture
     }   
   }
 
+  
   /** Method to create a collage of several pictures */
   public void createCollage()
   {
