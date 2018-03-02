@@ -297,16 +297,43 @@ public class Picture extends SimplePicture
         rightPixel = pixels[row]                       
                          [mirrorPoint - col + mirrorPoint];
         rightPixel.setColor(leftPixel.getColor());
+
+        count++;
       }
     }
+    
+    System.out.println(count);
   }
   
-  
+  /** Method that mirrors just the arms of a snowman*/
+  public void mirrorArms()
+  {
+    Pixel[][] pixels = this.getPixels2D();
+    Pixel topPixel = null;
+    Pixel bottomPixel = null;
+    int height = pixels.length;
+    for (int row = 0; row < 190; row++)
+    {
+      for (int col = 0; col < pixels[0].length; col++)
+      {
+        topPixel = pixels[row][col];
+        
+        if(topPixel.getRed() > topPixel.getGreen()
+        && topPixel.getRed() < 200
+        && row > 160)
+        {
+            bottomPixel = pixels[190+(190-row)][col];
+            bottomPixel.setColor(topPixel.getColor());
+        }
+      }
+    } 
+  }
+
   /** copy from the passed fromPic to the
     * specified startRow and startCol in the
     * current picture
     * @param fromPic the picture to copy from
-    * @param startRow the start row to copy to
+    * @param startRow the start row to copy to 
     * @param startCol the start col to copy to
     */
   public void copy(Picture fromPic, 
