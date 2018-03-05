@@ -102,7 +102,7 @@ public class PictureTester
     temple.explore();
   }
   
-  /**Method to test the mirrorArms method */
+  /** Method to test the mirrorArms method */
   public static void testMirrorArms()
   {
       Picture snowman = new Picture("snowman.jpg");
@@ -111,12 +111,31 @@ public class PictureTester
       snowman.explore();
   }
   
+  /** Method to test the mirrorGull method */
+  public static void testMirrorGull()
+  {
+      Picture gull = new Picture("seagull.jpg");
+      gull.explore();
+      gull.mirrorGull();
+      gull.explore();
+  }
+  
   /** Method to test the collage method */
   public static void testCollage()
   {
     Picture canvas = new Picture("640x480.jpg");
     canvas.createCollage();
     canvas.explore();
+  }
+  
+  /** Method to test the partialCopy method */
+  public static void testCopy()
+  {
+      Picture copy = new Picture("640x480.jpg");
+      Picture beach = new Picture("beach.jpg");
+      beach.explore();
+      copy.partialCopy(beach,100,100,200,200,100,100);
+      copy.explore();
   }
   
   /** Method to test edgeDetection */
@@ -151,7 +170,7 @@ public class PictureTester
     //testMirrorGull();
     //testMirrorDiagonal();
     //testCollage();
-    //testCopy();
+    testCopy();
     //testEdgeDetection();
     //testEdgeDetection2();
     //testChromakey();

@@ -328,6 +328,30 @@ public class Picture extends SimplePicture
       }
     } 
   }
+  
+  /** Method that mirrors a gull on a beach */
+  public void mirrorGull()
+  {
+    Pixel[][] pixels = this.getPixels2D();
+    Pixel leftPixel = null;
+    Pixel rightPixel = null;
+    int width = pixels[0].length;
+    for (int row = 0; row < 330; row++)
+    {
+      for (int col = 0; col < 350; col++)
+      {
+        leftPixel = pixels[row][col];
+        if(col > 230 &&
+        row > 230 &&
+        (leftPixel.getBlue() < 110 ||
+        leftPixel.getBlue()/leftPixel.getRed() < 1.1))
+        {
+            rightPixel = pixels[row][350+(350-col)];
+            rightPixel.setColor(leftPixel.getColor());
+        }
+      }
+    } 
+    }
 
   /** copy from the passed fromPic to the
     * specified startRow and startCol in the
@@ -360,6 +384,38 @@ public class Picture extends SimplePicture
     }   
   }
 
+  /** copy from the passed fromPic to the
+    * specified startRow and startCol in the
+    * current picture
+    * @param fromPic the picture to copy from
+    * @param startRow the start row to copy to 
+    * @param startCol the start col to copy to
+    */
+  public void partialCopy(Picture fromPic,
+  int fromStartRow, int fromStartCol,
+  int fromEndRow, int fromEndCol,
+  int toStartRow, int toStartCol)
+  {
+    Pixel fromPixel = null;
+    Pixel toPixel = null;
+    Pixel[][] toPixels = this.getPixels2D();
+    Pixel[][] fromPixels = fromPic.getPixels2D();
+    for (int fromRow = fromStartRow, toRow = toStartRow; 
+         fromRow < fromEndRow &&
+         toRow < toPixels.length; 
+         fromRow++, toRow++)
+    {
+      for (int fromCol = fromStartCol, toCol = toStartCol; 
+           fromCol < fromEndCol &&
+           toCol < toPixels[0].length;  
+           fromCol++, toCol++)
+      {
+        fromPixel = fromPixels[fromRow][fromCol];
+        toPixel = toPixels[toRow][toCol];
+        toPixel.setColor(fromPixel.getColor());
+      }
+    }  
+  }
   
   /** Method to create a collage of several pictures */
   public void createCollage()
@@ -376,6 +432,12 @@ public class Picture extends SimplePicture
     this.copy(flower2,500,0);
     this.mirrorVertical();
     this.write("collage.jpg");
+  }
+  
+  /** Another method to create a collage of several pictures */
+  public void myCollage()
+  {
+      
   }
   
   
