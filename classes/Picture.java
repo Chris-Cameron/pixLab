@@ -437,7 +437,19 @@ public class Picture extends SimplePicture
   /** Another method to create a collage of several pictures */
   public void myCollage()
   {
+      Picture topLeft = new Picture("beach.jpg");
+      topLeft.zeroBlue();
+      Picture topRight = new Picture("beach.jpg");
+      topRight.mirrorDiagonal();
+      Picture bottomLeft = new Picture("beach.jpg");
+      bottomLeft.negate();      
+      Picture bottomRight = new Picture("beach.jpg");
+      bottomRight.grayscale();      
       
+      partialCopy(topLeft,0,0,240,320,0,0);
+      partialCopy(topRight,0,320,240,640,0,320);
+      partialCopy(bottomLeft,240,0,480,320,240,0);
+      partialCopy(bottomRight,240,320,480,640,240,320);
   }
   
   
@@ -448,18 +460,25 @@ public class Picture extends SimplePicture
   {
     Pixel leftPixel = null;
     Pixel rightPixel = null;
+    Pixel downPixel = null;
     Pixel[][] pixels = this.getPixels2D();
     Color rightColor = null;
-    for (int row = 0; row < pixels.length; row++)
+    Color downColor = null;
+    
+    for (int row = 0; row < pixels.length-1; row++)
     {
       for (int col = 0; 
            col < pixels[0].length-1; col++)
       {
         leftPixel = pixels[row][col];
         rightPixel = pixels[row][col+1];
+        downPixel = pixels[row+1][col];
+        
         rightColor = rightPixel.getColor();
-        if (leftPixel.colorDistance(rightColor) > 
-            edgeDist)
+        downColor = downPixel.getColor();
+        
+        if (leftPixel.colorDistance(rightColor) > edgeDist
+        || leftPixel.colorDistance (downColor) > edgeDist)
           leftPixel.setColor(Color.BLACK);
         else
           leftPixel.setColor(Color.WHITE);
@@ -467,6 +486,69 @@ public class Picture extends SimplePicture
     }
   }
   
+    /** Method to show large changes in color
+    * works by checking if neighboring pixels are more different than would be expected for a color area
+    * @param sensitivity, the amount of color change relative to normal necessary to denote an edge
+    */
+  public void edgeDetection2(Picture fromPic,double sensitivity)
+  {
+    Pixel centerPixel = null;
+    Pixel leftPixel = null;
+    Pixel rightPixel = null;
+    Pixel upPixel = null;
+    Pixel downPixel = null;
+    Pixel toPixel = null;
+    Pixel[][] pixels = fromPic.getPixels2D();
+    Pixel[][] toPixels = this.getPixels2D();
+    Color leftColor = null;
+    Color rightColor = null;
+    Color upColor = null;
+    Color downColor = null;
+    
+    for (int row = 1; row < pixels.length-1; row++)
+    {
+      for (int col = 1; 
+           col < pixels[0].length-1; col++)
+      {
+        centerPixel = pixels[row][col];
+        leftPixel = pixels[row] [col-1];
+        rightPixel = pixels[row][col+1];
+        upPixel = pixels[row-1] [col];
+        downPixel = pixels[row+1][col];
+        
+        leftColor = leftPixel.getColor();
+        rightColor = rightPixel.getColor();
+        upColor = upPixel.getColor();
+        downColor = downPixel.getColor();
+        
+       boolean isEdge = edgeValue(centerPixel,leftColor,rightColor,upColor,downColor) > sensitivity;
+        
+       toPixel = toPixels[row][col];
+       
+       if(isEdge) toPixel.setColor(Color.BLACK);
+       else toPixel.setColor(Color.WHITE);
+      }
+    }
+  }
+  
+  private double edgeValue (Pixel center, Color left, Color right, Color up, Color down)
+  {
+      double[] distances  = {center.colorDistance(left),
+          center.colorDistance(right),
+          center.colorDistance(up),
+          center.colorDistance(down)};
+          
+      double greatestDistance = Double.MIN_VALUE;
+      double smallestDistance = Double.MAX_VALUE;
+      
+      for(double d: distances)
+      {
+          if(d>greatestDistance) greatestDistance = d;
+          if(d<smallestDistance) smallestDistance = d;
+      }
+          
+      return greatestDistance/smallestDistance;
+  }
   
   /* Main method for testing - each class in Java can have a main 
    * method 

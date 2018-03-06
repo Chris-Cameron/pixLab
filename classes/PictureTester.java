@@ -128,6 +128,14 @@ public class PictureTester
     canvas.explore();
   }
   
+  /** Method to test the myCollage method */
+  public static void testMyCollage()
+  {
+      Picture canvas = new Picture("640x480.jpg");
+      canvas.myCollage();
+      canvas.explore();
+ }
+  
   /** Method to test the partialCopy method */
   public static void testCopy()
   {
@@ -142,6 +150,7 @@ public class PictureTester
   public static void testEdgeDetection()
   {
     Picture swan = new Picture("swan.jpg");
+    swan.explore();
     swan.edgeDetection(10);
     swan.explore();
   }
@@ -170,8 +179,9 @@ public class PictureTester
     //testMirrorGull();
     //testMirrorDiagonal();
     //testCollage();
-    testCopy();
-    //testEdgeDetection();
+    //testMyCollage();
+    //testCopy();
+    testEdgeDetection();
     //testEdgeDetection2();
     //testChromakey();
     //testEncodeAndDecode();
