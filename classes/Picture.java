@@ -539,15 +539,13 @@ public class Picture extends SimplePicture
           center.colorDistance(down)};
           
       double greatestDistance = Double.MIN_VALUE;
-      double smallestDistance = Double.MAX_VALUE;
       
       for(double d: distances)
       {
           if(d>greatestDistance) greatestDistance = d;
-          if(d<smallestDistance) smallestDistance = d;
       }
           
-      return greatestDistance/smallestDistance;
+      return greatestDistance;
   }
   
   /* Main method for testing - each class in Java can have a main 
